@@ -5,6 +5,16 @@
       <img :src="imageUrl" alt="Uploaded Image" />
       <button @click="uploadImage">Upload</button>
     </div>
+    <div v-if="results.length > 0">
+      <h2>Results</h2>
+      <ul>
+        <li v-for="result in results" :key="result.id">
+          <h3>File ID:{{ result.file_id }}</h3>
+          <p>Verdict: {{ result.verdict }}</p>
+          <p>Confidence: {{ result.confidence }}</p>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
@@ -14,6 +24,7 @@ import axios from "axios";
 
 const imageUrl = ref(null);
 const imageFile = ref(null);
+const results = ref([]);
 
 const onFileChange = (event) => {
   const file = event.target.files[0];
@@ -42,6 +53,8 @@ const uploadImage = async () => {
         },
       }
     );
+
+    results.value = [...results.value, response.data];
     console.log("Upload successful:", response.data);
   } catch (error) {
     console.error("Upload failed:", error);
