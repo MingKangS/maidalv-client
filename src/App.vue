@@ -45,7 +45,7 @@ const uploadImage = async () => {
 
   try {
     const response = await axios.post(
-      "http://localhost:8000/check_copyright",
+      `${process.env.VUE_APP_SERVER_URL}/check_copyright`,
       formData,
       {
         headers: {
